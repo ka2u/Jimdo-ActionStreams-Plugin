@@ -1,0 +1,54 @@
+name: Jimdo
+id: jimdo
+key: Jimdo
+author_link: http://learn2crawl.org
+author_name: Kazuhiro Shibuya
+description: Adds Jimdo blog and activity stream for MT.
+version: 0.1 
+plugin_link: http://learn2crawl.org/
+
+profile_services:
+    jimdoblog:
+        name: Jimdo Blog
+        url: http://{{ident}}.jimdo.com/rss/blog
+        icon:
+    jimdoactivity:
+        name: Jimdo Activity
+        url: http://{{ident}}.jimdo.com/rss/activity
+        icon:
+
+action_streams:
+    jimdoblog:
+        posts:
+            name: Posts
+            description: Jimdo Blog
+            html_form: '[_1] posted <a href="[_2]">[_3]</a>'
+            html_params:
+                - url
+                - title
+            url: 'http://{{ident}}.jimdo.com/rss/blog'
+            identifier: url
+            xpath:
+                foreach: //item
+                get:
+                    created_on: pubDate/child::text()
+                    title: title/child::text()
+                    url: link/child::text()
+                
+    jimdoactivity:
+        activities:
+            name: Activities
+            description: Jimdo Activity
+            html_form: '[_1] posted <a href="[_2]">[_3]</a>'
+            html_params:
+                - url
+                - title
+            url: 'http://{{ident}}.jimdo.com/rss/blog'
+            identifier: url
+            xpath:
+                foreach: //item
+                get:
+                    created_on: pubDate/child::text()
+                    title: title/child::text()
+                    url: link/child::text()
+
